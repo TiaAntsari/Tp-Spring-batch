@@ -1,8 +1,7 @@
 package ma.ensa.batch;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.stereotype.Service;
@@ -18,8 +17,7 @@ public class TransactionProcessor implements ItemProcessor<TransactionContenu, T
 	IDaoCompte daoCompte;
 
 	private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-	private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
-	private LocalDateTime now = LocalDateTime.now();
+	private Date dateNow = new Date();
 
 	@Override
 	public Transaction process(TransactionContenu transactionContenu) throws Exception {
@@ -34,7 +32,7 @@ public class TransactionProcessor implements ItemProcessor<TransactionContenu, T
 
 		transaction.setMontant(transactionContenu.getMontant());
 		transaction.setDateTransaction(simpleDateFormat.parse(transactionContenu.getDateTransaction()));
-		transaction.setDateDebit(dtf.format(now).toString());
+		transaction.setDateDebit(simpleDateFormat.format(dateNow));
 
 		return transaction;
 	}
